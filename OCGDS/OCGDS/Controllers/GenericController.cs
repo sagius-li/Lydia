@@ -19,6 +19,7 @@ namespace OCGDS.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
     public class GenericController : ApiController
     {
+        // Get MEF assemblies
         [ImportMany("MIMResource", typeof(IOCGDSRepository))]
         IEnumerable<Lazy<IOCGDSRepository, Dictionary<string, object>>> repos { get; set; }
 
