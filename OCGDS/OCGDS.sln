@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCGDS", "OCGDS\OCGDS.csproj", "{634A4928-D156-4736-886F-47234EADA647}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCGDS.DSModel", "OCGDS.DSModel\OCGDS.DSModel.csproj", "{467A72A0-6D41-44CB-AD95-B3DCD955207E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCGDS.MIMResourceRepo", "OCGDS.MIMResourceRepo\OCGDS.MIMResourceRepo.csproj", "{B11F1660-CDE0-481F-AD0C-6F315D4E7088}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCGDS.AzureResourceRepo", "OCGDS.AzureResourceRepo\OCGDS.AzureResourceRepo.csproj", "{89AF7C90-1236-43C7-BD3B-11D816631BF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{634A4928-D156-4736-886F-47234EADA647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{634A4928-D156-4736-886F-47234EADA647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{634A4928-D156-4736-886F-47234EADA647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{634A4928-D156-4736-886F-47234EADA647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{467A72A0-6D41-44CB-AD95-B3DCD955207E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{467A72A0-6D41-44CB-AD95-B3DCD955207E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{467A72A0-6D41-44CB-AD95-B3DCD955207E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{467A72A0-6D41-44CB-AD95-B3DCD955207E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B11F1660-CDE0-481F-AD0C-6F315D4E7088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B11F1660-CDE0-481F-AD0C-6F315D4E7088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B11F1660-CDE0-481F-AD0C-6F315D4E7088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B11F1660-CDE0-481F-AD0C-6F315D4E7088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89AF7C90-1236-43C7-BD3B-11D816631BF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89AF7C90-1236-43C7-BD3B-11D816631BF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89AF7C90-1236-43C7-BD3B-11D816631BF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89AF7C90-1236-43C7-BD3B-11D816631BF9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E29315B1-123D-4166-98F0-0053A9F0D392}
+	EndGlobalSection
+EndGlobal

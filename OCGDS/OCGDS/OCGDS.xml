@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OCGDS</name>
+    </assembly>
+    <members>
+        <member name="T:OCGDS.Controllers.GenericController">
+            <summary>
+            Controller to handle generic jobs
+            </summary>
+        </member>
+        <member name="M:OCGDS.Controllers.GenericController.GetVersion">
+            <summary>
+            Get version number
+            </summary>
+            <returns>Current version number</returns>
+        </member>
+    </members>
+</doc>
