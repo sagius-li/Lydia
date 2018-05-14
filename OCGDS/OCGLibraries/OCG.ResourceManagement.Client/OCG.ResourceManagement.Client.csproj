@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6CDD46BF-E852-4B5B-9ABA-F630EA6DFDE2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OCG.ResourceManagement.Client</RootNamespace>
+    <AssemblyName>OCG.ResourceManagement.Client</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>OCG.ResourceManagement.Client.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.WorkflowServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClientHelper.cs" />
+    <Compile Include="Constances.cs" />
+    <Compile Include="Faults.cs" />
+    <Compile Include="FIMServiceClient.cs" />
+    <Compile Include="WSClient\MEXClient.cs" />
+    <Compile Include="WSClient\WSEnumerationClient.cs" />
+    <Compile Include="WSClient\WSResourceFactoryClient.cs" />
+    <Compile Include="WSEnumeration\EnumerationContext.cs" />
+    <Compile Include="WSEnumeration\GenericResultEnumerator.cs" />
+    <Compile Include="WSEnumeration\ResultEnumerator.cs" />
+    <Compile Include="WSFactory\RequestFactory.cs" />
+    <Compile Include="WSFactory\ResponseFactory.cs" />
+    <Compile Include="WSFactory\RmFactory.cs" />
+    <Compile Include="WSFactory\RmResourceFactory.cs" />
+    <Compile Include="WSFactory\RmResourceTypeFactory.cs" />
+    <Compile Include="WSMessage\ContextMessageHeader.cs" />
+    <Compile Include="WSMessage\RequestCreate.cs" />
+    <Compile Include="WSMessage\RequestDelete.cs" />
+    <Compile Include="WSMessage\RequestEnumeration.cs" />
+    <Compile Include="WSMessage\RequestGet.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WSMessage\RequestPull.cs" />
+    <Compile Include="WSMessage\RequestPut.cs" />
+    <Compile Include="WSMessage\ResponseCreate.cs" />
+    <Compile Include="WSMessage\ResponseEnumeration.cs" />
+    <Compile Include="WSMessage\ResponseGet.cs" />
+    <Compile Include="WSMessage\ResponsePull.cs" />
+    <Compile Include="WSMessage\ResponsePut.cs" />
+    <Compile Include="WSProxy\IEnumerate.cs" />
+    <Compile Include="WSProxy\IMEX.cs" />
+    <Compile Include="WSProxy\IResource.cs" />
+    <Compile Include="WSClient\WSResourceClient.cs" />
+    <Compile Include="WSProxy\IResourceFactory.cs" />
+    <Compile Include="XMLHandler\ClientSerializer.cs" />
+    <Compile Include="XMLHandler\XMLElementClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OCG.ResourceManagement.Client.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OCG.ResourceManagement.ObjectModel\OCG.ResourceManagement.ObjectModel.csproj">
+      <Project>{758D1DED-049C-4B96-82AA-A0B50D0CCD88}</Project>
+      <Name>OCG.ResourceManagement.ObjectModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

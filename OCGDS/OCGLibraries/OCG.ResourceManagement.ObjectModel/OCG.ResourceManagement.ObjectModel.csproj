@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{758D1DED-049C-4B96-82AA-A0B50D0CCD88}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OCG.ResourceManagement.ObjectModel</RootNamespace>
+    <AssemblyName>OCG.ResourceManagement.ObjectModel</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>OCG.ResourceManagement.ObjectModel.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ResourceTypes\RmApproval.cs" />
+    <Compile Include="ResourceTypes\RmAttribute.cs" />
+    <Compile Include="ResourceTypes\RmBinding.cs" />
+    <Compile Include="ResourceTypes\RmOrgUnit.cs" />
+    <Compile Include="ResourceTypes\RmPermission.cs" />
+    <Compile Include="ResourceTypes\RmPerson.cs" />
+    <Compile Include="ResourceTypes\RmRequest.cs" />
+    <Compile Include="ResourceTypes\RmRole.cs" />
+    <Compile Include="ResourceTypes\RmSSoD.cs" />
+    <Compile Include="ResourceTypes\RmType.cs" />
+    <Compile Include="ResourceTypes\RmUserAssignment.cs" />
+    <Compile Include="RmAttributeChange.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RmAttributeName.cs" />
+    <Compile Include="RmAttributeValue.cs" />
+    <Compile Include="RmBinary.cs" />
+    <Compile Include="RmDateTime.cs" />
+    <Compile Include="ResourceTypes\RmGenericResource.cs" />
+    <Compile Include="ResourceTypes\RmGroup.cs" />
+    <Compile Include="RmGeneric.cs" />
+    <Compile Include="RmList.cs" />
+    <Compile Include="ResourceTypes\RmOrgAssignment.cs" />
+    <Compile Include="RmReference.cs" />
+    <Compile Include="RmResource.cs" />
+    <Compile Include="RmResourceChanges.cs" />
+    <Compile Include="RmRight.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OCG.ResourceManagement.ObjectModel.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

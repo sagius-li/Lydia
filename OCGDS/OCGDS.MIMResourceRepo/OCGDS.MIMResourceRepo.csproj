@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lithnet.ResourceManagement.Client, Version=1.0.6689.20086, Culture=neutral, PublicKeyToken=bd0636700c1e2538, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lithnet.ResourceManagement.Client.1.0.6689.20086\lib\net40\Lithnet.ResourceManagement.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ResourceManagement, Version=4.1.3451.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lithnet.ResourceManagement.Client.1.0.6689.20086\lib\net40\Microsoft.ResourceManagement.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -49,6 +55,14 @@
       <Project>{467a72a0-6d41-44cb-ad95-b3dcd955207e}</Project>
       <Name>OCGDS.DSModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OCGLibraries\OCG.Security\OCG.Security.csproj">
+      <Project>{0c05e240-d568-494e-a6f8-704efd8019dd}</Project>
+      <Name>OCG.Security</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

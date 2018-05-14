@@ -52,5 +52,21 @@ namespace OCGDS.Controllers
                 return NotFound();
             }
         }
+
+        [HttpGet]
+        [Route("get/id")]
+        public IHttpActionResult GetResourceByID(string id)
+        {
+            if (repos != null && repos.Count() > 0)
+            {
+                DSResource rs = repos.First().Value
+                    .GetResourceByID(null, id, new string[] { "DisplayName" }, false, false);
+                return Ok(rs);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

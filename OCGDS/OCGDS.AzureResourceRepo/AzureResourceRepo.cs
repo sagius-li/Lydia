@@ -15,5 +15,10 @@ namespace OCGDS.AzureResourceRepo
         {
             return "Azure Resource Repository";
         }
+
+        public DSResource GetResourceByID(ConnectionInfo info, string id, string[] attributes, bool getPermission, bool getResolved)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
