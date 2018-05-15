@@ -21,6 +21,22 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:OCGDS.Controllers.ResourceBasicAuthController">
+            <summary>
+            Controller to work with resources using basic authentication
+            </summary>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceBasicAuthController.GetResourceByID(System.String,System.String,System.String[],System.Boolean,System.Boolean)">
+            <summary>
+            Get Resource by ObjectID
+            </summary>
+            <param name="connectionInfo"></param>
+            <param name="id"></param>
+            <param name="attributes"></param>
+            <param name="getPermission"></param>
+            <param name="getResolved"></param>
+            <returns>DSResource</returns>
+        </member>
         <member name="T:OCGDS.Controllers.ResourceWinAuthController">
             <summary>
             Controller to work with resources using windows authentication

@@ -12,6 +12,51 @@ namespace OCGDS.DSModel
         public string Domain { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+
+        public static ConnectionInfo BuildConnectionInfo(string connection)
+        {
+            ConnectionInfo ci = new ConnectionInfo();
+
+            if (string.IsNullOrEmpty(connection))
+            {
+                return null;
+            }
+
+            string[] entries = connection.Split(";".ToCharArray());
+            if (entries.Length == 0)
+            {
+                return null;
+            }
+
+            foreach (string entry in entries)
+            {
+                string[] items = entry.Split(":".ToCharArray());
+                if (items.Length != 2)
+                {
+                    continue;
+                }
+
+                switch (items[0].ToLower())
+                {
+                    case "baseaddress":
+                        ci.BaseAddress = items[1];
+                        break;
+                    case "domain":
+                        ci.Domain = items[1];
+                        break;
+                    case "username":
+                        ci.UserName = items[1];
+                        break;
+                    case "password":
+                        ci.Password = items[1];
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return ci;
+        }
     }
 
     public class DSResource
