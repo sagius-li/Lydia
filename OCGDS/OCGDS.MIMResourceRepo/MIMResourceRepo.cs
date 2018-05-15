@@ -93,6 +93,7 @@ namespace OCGDS.MIMResourceRepo
         public DSResource GetResourceByID(ConnectionInfo info, string id, string[] attributes, bool getPermission, bool getResolved)
         {
             ResourceManagementClient client = getClient(info);
+            client.RefreshSchema();
 
             ResourceObject resource = client.GetResource(id, attributes, getPermission);
 

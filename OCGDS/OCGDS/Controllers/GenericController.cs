@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Security.Principal;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -41,27 +42,21 @@ namespace OCGDS.Controllers
             {
                 gitVersion = reader.ReadLine();
             }
-            
-            
-            if (repos != null && repos.Count() > 0)
-            {
-                return Ok($"Using Repository: {repos.First().Value.GetType()}, {gitVersion}");
-            }
-            else
-            {
-                return NotFound();
-            }
+
+            return Ok(gitVersion);
         }
 
+        /// <summary>
+        /// Get information
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("get/id")]
-        public IHttpActionResult GetResourceByID(string id)
+        [Route("info")]
+        public IHttpActionResult GetInfo()
         {
             if (repos != null && repos.Count() > 0)
             {
-                DSResource rs = repos.First().Value
-                    .GetResourceByID(null, id, new string[] { "DisplayName" }, false, false);
-                return Ok(rs);
+                return Ok($"Using Repository: {repos.First().Value.GetType()}");
             }
             else
             {

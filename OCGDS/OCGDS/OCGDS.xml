@@ -15,5 +15,41 @@
             </summary>
             <returns>Current version number</returns>
         </member>
+        <member name="M:OCGDS.Controllers.GenericController.GetInfo">
+            <summary>
+            Get information
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OCGDS.Controllers.ResourceController">
+            <summary>
+            Controller to work with resources
+            </summary>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceController.GetResourceByID(System.String,System.String[],System.Boolean,System.Boolean)">
+            <summary>
+            Get Resource by ObjectID
+            </summary>
+            <param name="id"></param>
+            <param name="attributes"></param>
+            <param name="getPermission"></param>
+            <param name="getResolved"></param>
+            <returns>DSResource</returns>
+        </member>
+        <member name="T:OCGDS.Controllers.ResourceWinAuthController">
+            <summary>
+            Controller to work with resources using windows authentication
+            </summary>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceWinAuthController.GetResourceByID(System.String,System.String[],System.Boolean,System.Boolean)">
+            <summary>
+            Get Resource by ObjectID
+            </summary>
+            <param name="id"></param>
+            <param name="attributes"></param>
+            <param name="getPermission"></param>
+            <param name="getResolved"></param>
+            <returns>DSResource</returns>
+        </member>
     </members>
 </doc>
