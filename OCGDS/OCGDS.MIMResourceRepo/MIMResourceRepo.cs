@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace OCGDS.MIMResourceRepo
 {
-    [Export("MIMResource", typeof(IOCGDSRepository))]
+    [ExportMetadata("Name", "MIMResource")]
+    [Export("ResourceManagement", typeof(IOCGDSRepository))]
     public class MIMResourceRepo : IOCGDSRepository
     {
         private ResourceManagementClient getClient(ConnectionInfo info)

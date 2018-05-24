@@ -20,9 +20,9 @@ namespace OCGDS.Controllers
     public class ResourceBasicAuthController : ApiController
     {
         // Get MEF assemblies
-        [ImportMany("MIMResource", typeof(IOCGDSRepository))]
+        [ImportMany("ResourceManagement", typeof(IOCGDSRepository))]
         IEnumerable<Lazy<IOCGDSRepository, Dictionary<string, object>>> repos { get; set; }
-
+        
         /// <summary>
         /// Get Resource by ObjectID
         /// </summary>
@@ -39,11 +39,13 @@ namespace OCGDS.Controllers
         {
             try
             {
-                if (repos != null && repos.Count() > 0)
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
                 {
                     ConnectionInfo ci = ConnectionInfo.BuildConnectionInfo(connectionInfo);
 
-                    DSResource rs = repos.First().Value.GetResourceByID(ci, id,
+                    DSResource rs = repo.Value.GetResourceByID(ci, id,
                         (attributes == null || attributes.Length == 0) ?
                             new string[] { "DisplayName" } : attributes, false, false);
                     return Ok(rs);

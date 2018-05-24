@@ -15,7 +15,7 @@
             </summary>
             <returns>Current version number</returns>
         </member>
-        <member name="M:OCGDS.Controllers.GenericController.GetInfo">
+        <member name="M:OCGDS.Controllers.GenericController.GetInfo(System.String)">
             <summary>
             Get information
             </summary>

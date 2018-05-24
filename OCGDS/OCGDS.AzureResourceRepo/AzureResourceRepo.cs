@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace OCGDS.AzureResourceRepo
 {
-    [Export("AzureResource", typeof(IOCGDSRepository))]
+    [ExportMetadata("Name", "AzureResource")]
+    [Export("ResourceManagement", typeof(IOCGDSRepository))]
     public class AzureResourceRepo : IOCGDSRepository
     {
         public new string GetType()

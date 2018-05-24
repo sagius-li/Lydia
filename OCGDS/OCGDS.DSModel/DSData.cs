@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,27 @@ namespace OCGDS.DSModel
             }
 
             return ci;
+        }
+    }
+
+    public class RepositoryManager
+    {
+        public static Lazy<IOCGDSRepository> GetRepository(
+            IEnumerable<Lazy<IOCGDSRepository, Dictionary<string, object>>> repositories, string name)
+        {
+            Lazy<IOCGDSRepository> repo = null;
+
+            foreach (Lazy<IOCGDSRepository, Dictionary<string, object>> item in repositories)
+            {
+                if (item.Metadata.ContainsKey("Name") &&
+                    item.Metadata["Name"].ToString().Equals(name, StringComparison.OrdinalIgnoreCase))
+                {
+                    repo = item;
+                    break;
+                }
+            }
+
+            return repo;
         }
     }
 

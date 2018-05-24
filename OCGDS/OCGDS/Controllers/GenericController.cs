@@ -23,7 +23,8 @@ namespace OCGDS.Controllers
     public class GenericController : ApiController
     {
         // Get MEF assemblies
-        [ImportMany("MIMResource", typeof(IOCGDSRepository))]
+        [ImportMany("ResourceManagement", typeof(IOCGDSRepository))]
+        //[ImportMany(typeof(IOCGDSRepository))]
         IEnumerable<Lazy<IOCGDSRepository, Dictionary<string, object>>> repos { get; set; }
 
         /// <summary>
@@ -52,11 +53,13 @@ namespace OCGDS.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("info")]
-        public IHttpActionResult GetInfo()
+        public IHttpActionResult GetInfo(string name)
         {
-            if (repos != null && repos.Count() > 0)
+            Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, name);
+
+            if (repo != null)
             {
-                return Ok($"Using Repository: {repos.First().Value.GetType()}");
+                return Ok($"Using Repository: {repo.Value.GetType()}");
             }
             else
             {
