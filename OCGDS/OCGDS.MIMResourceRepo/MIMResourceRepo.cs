@@ -1,4 +1,5 @@
 ﻿using Lithnet.ResourceManagement.Client;
+using OCG.ResourceManagement.ObjectModel.ResourceTypes;
 using OCG.Security.Operation;
 using OCGDS.DSModel;
 using System;
@@ -48,7 +49,33 @@ namespace OCGDS.MIMResourceRepo
             return client;
         }
 
-        public DSResource convertToDSResource(ResourceObject resource)
+        private List<RmAttribute> getAttributeDefinition(string objectType, int cultureKey)
+        {
+            List<RmAttribute> attDef = null;
+            if (cultureKey != 127)
+            {
+                string connString = ConfigManager.GetAppSetting("FIMDBConnectionString",
+                    "Integrated Security=SSPI;Initial Catalog=FIMService;Data Source=localhost;");
+                string adminAccountName = ConfigManager.GetAppSetting("FIMPortalAdminAccountName", string.Empty);
+                string adminAccountPWD = ConfigManager.GetAppSetting("FIMPortalAdminAccountPWD", string.Empty);
+
+                OCG.ResourceManagement.DBAccess.ResourceReader resourceReader = null;
+                if (string.IsNullOrEmpty(adminAccountName) || string.IsNullOrEmpty(adminAccountPWD))
+                {
+                    resourceReader = new OCG.ResourceManagement.DBAccess.ResourceReader(connString);
+                }
+                else
+                {
+                    resourceReader = new OCG.ResourceManagement.DBAccess.ResourceReader(
+                        connString, adminAccountName, GenericAESCryption.DecryptString(adminAccountPWD));
+                }
+                attDef = resourceReader.GetAttributes(objectType, cultureKey);
+            }
+
+            return attDef;
+        }
+
+        public DSResource convertToDSResource(ResourceManagementClient client, ResourceObject resource, bool includePermission, ResourceOption option)
         {
             DSResource dsResource = new DSResource
             {
@@ -58,12 +85,19 @@ namespace OCGDS.MIMResourceRepo
                 HasPermissionHints = resource.HasPermissionHints
             };
 
+            List<RmAttribute> attributeDef = getAttributeDefinition(resource.ObjectTypeName, option.CultureKey);
+
             Dictionary<string, DSAttribute> attributes = new Dictionary<string, DSAttribute>();
             foreach (AttributeValue attValue in resource.Attributes)
             {
+                if (attValue.Attribute.SystemName.Equals("ObjectID") || attValue.Attribute.SystemName.Equals("ObjectType"))
+                {
+                    continue;
+                }
+
                 if (!attValue.IsNull)
                 {
-                    attributes.Add(attValue.AttributeName, new DSAttribute
+                    DSAttribute dsAttribute = new DSAttribute
                     {
                         Description = attValue.Attribute.Description,
                         DisplayName = attValue.Attribute.DisplayName,
@@ -77,7 +111,32 @@ namespace OCGDS.MIMResourceRepo
                         PermissionHint = attValue.PermissionHint.ToString(),
                         Value = attValue.Value,
                         Values = attValue.Attribute.IsMultivalued ? attValue.Values.ToList() : null
-                    });
+                    };
+
+                    if (attributeDef != null)
+                    {
+                        RmAttribute attr = attributeDef.FirstOrDefault(a => a.Name.Equals(attValue.AttributeName));
+                        if (attr != null)
+                        {
+                            dsAttribute.DisplayName = attr.DisplayName;
+                            dsAttribute.Description = attr.Description;
+                        }
+                    }
+
+                    if (option.ResolveID && dsAttribute.Type.Equals("Reference"))
+                    {
+                        if (dsAttribute.IsMultivalued)
+                        {
+
+                        }
+                        else
+                        {
+                            ResourceObject resolvedObject = client.GetResource(attValue.StringValue, option.AttributesToResolve, includePermission);
+                            dsAttribute.ResolvedValue = convertToDSResource(client, resolvedObject, includePermission, option);
+                        }
+                    }
+
+                    attributes.Add(attValue.AttributeName, dsAttribute);
                 }
             }
 
@@ -91,14 +150,17 @@ namespace OCGDS.MIMResourceRepo
             return "MIM Resource Repository";
         }
 
-        public DSResource GetResourceByID(ConnectionInfo info, string id, string[] attributes, bool getPermission, bool getResolved)
+        public DSResource GetResourceByID(
+            string id, string[] attributes, bool includePermission = false, ResourceOption resourceOption = null)
         {
-            ResourceManagementClient client = getClient(info);
+            ResourceOption option = resourceOption == null ? new ResourceOption() : resourceOption;
+
+            ResourceManagementClient client = getClient(option.ConnectionInfo);
             client.RefreshSchema();
 
-            ResourceObject resource = client.GetResource(id, attributes, getPermission);
+            ResourceObject resource = client.GetResource(id, attributes, includePermission);
 
-            return convertToDSResource(resource);
+            return convertToDSResource(client, resource, includePermission, resourceOption);
         }
     }
 }

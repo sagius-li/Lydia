@@ -55,6 +55,14 @@
       <Project>{467a72a0-6d41-44cb-ad95-b3dcd955207e}</Project>
       <Name>OCGDS.DSModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OCGLibraries\OCG.ResourceManagement.DBAccess\OCG.ResourceManagement.DBAccess.csproj">
+      <Project>{861ee47a-7ffb-42c8-9ece-4d654d1be945}</Project>
+      <Name>OCG.ResourceManagement.DBAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OCGLibraries\OCG.ResourceManagement.ObjectModel\OCG.ResourceManagement.ObjectModel.csproj">
+      <Project>{758d1ded-049c-4b96-82aa-a0b50d0ccd88}</Project>
+      <Name>OCG.ResourceManagement.ObjectModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OCGLibraries\OCG.Security\OCG.Security.csproj">
       <Project>{0c05e240-d568-494e-a6f8-704efd8019dd}</Project>
       <Name>OCG.Security</Name>

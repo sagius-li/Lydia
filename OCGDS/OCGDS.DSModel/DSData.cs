@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +61,42 @@ namespace OCGDS.DSModel
         }
     }
 
+    public class ResourceOption
+    {
+        private string[] attributesToResolve = new string[] { "DisplayName" };
+        private ConnectionInfo connectionInfo = new ConnectionInfo();
+
+        public bool ResolveID { get; set; }
+        public int CultureKey { get; set; }
+        public ConnectionInfo ConnectionInfo
+        {
+            get { return connectionInfo; }
+            set { connectionInfo = value; }
+        }
+        public string[] AttributesToResolve
+        {
+            get { return attributesToResolve; }
+            set { attributesToResolve = value; }
+        }
+
+        public ResourceOption()
+        {
+            ResolveID = false;
+            CultureKey = 127;
+        }
+
+        public ResourceOption(ConnectionInfo connectionInfo, int cultureKey, bool resolveID, string[] attributesToResolve)
+        {
+            ConnectionInfo = connectionInfo;
+            CultureKey = cultureKey;
+            ResolveID = resolveID;
+            if (attributesToResolve != null && attributesToResolve.Length != 0)
+            {
+                AttributesToResolve = attributesToResolve;
+            }
+        }
+    }
+
     public class RepositoryManager
     {
         public static Lazy<IOCGDSRepository> GetRepository(
@@ -78,6 +115,15 @@ namespace OCGDS.DSModel
             }
 
             return repo;
+        }
+    }
+
+    public class ConfigManager
+    {
+        public static string GetAppSetting(string key, string defaultValue = null)
+        {
+            return string.IsNullOrEmpty(ConfigurationManager.AppSettings[key]) ? 
+                defaultValue : ConfigurationManager.AppSettings[key];
         }
     }
 

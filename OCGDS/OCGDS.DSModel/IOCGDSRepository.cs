@@ -10,7 +10,7 @@ namespace OCGDS.DSModel
     {
         string GetType();
 
-        DSResource GetResourceByID(ConnectionInfo info, 
-            string id, string[] attributes, bool getPermission, bool getResolved);
+        DSResource GetResourceByID(
+            string id, string[] attributes, bool includePermission = false, ResourceOption resourceOption = null);
     }
 }
