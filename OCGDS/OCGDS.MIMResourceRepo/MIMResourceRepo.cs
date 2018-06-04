@@ -75,7 +75,8 @@ namespace OCGDS.MIMResourceRepo
             return attDef;
         }
 
-        public DSResource convertToDSResource(ResourceManagementClient client, ResourceObject resource, bool includePermission, ResourceOption option, bool deepResolve = true)
+        public DSResource convertToDSResource(ResourceManagementClient client, ResourceObject resource, 
+            string[] loadedAttributes, bool includePermission, ResourceOption option, bool deepResolve = true)
         {
             DSResource dsResource = new DSResource
             {
@@ -88,15 +89,18 @@ namespace OCGDS.MIMResourceRepo
             List<RmAttribute> attributeDef = getAttributeDefinition(resource.ObjectTypeName, option.CultureKey);
 
             Dictionary<string, DSAttribute> attributes = new Dictionary<string, DSAttribute>();
-            foreach (AttributeValue attValue in resource.Attributes)
-            {
-                if (attValue.Attribute.SystemName.Equals("ObjectID") || attValue.Attribute.SystemName.Equals("ObjectType"))
-                {
-                    continue;
-                }
 
-                if (!attValue.IsNull)
+            foreach (string attributeName in loadedAttributes)
+            {
+                if (resource.Attributes.ContainsAttribute(attributeName))
                 {
+                    AttributeValue attValue = resource.Attributes[attributeName];
+
+                    if (attValue.Attribute.SystemName.Equals("ObjectID") || attValue.Attribute.SystemName.Equals("ObjectType"))
+                    {
+                        continue;
+                    }
+
                     DSAttribute dsAttribute = new DSAttribute
                     {
                         Description = attValue.Attribute.Description,
@@ -109,8 +113,8 @@ namespace OCGDS.MIMResourceRepo
                         Type = attValue.Attribute.Type.ToString(),
                         IsNull = attValue.IsNull,
                         PermissionHint = attValue.PermissionHint.ToString(),
-                        Value = attValue.Attribute.IsMultivalued? null : attValue.StringValue,
-                        Values = attValue.Attribute.IsMultivalued ? attValue.StringValues.ToList<object>() : null
+                        Value = attValue.Value,
+                        Values = attValue.Values.ToList()
                     };
 
                     if (attributeDef != null)
@@ -123,23 +127,35 @@ namespace OCGDS.MIMResourceRepo
                         }
                     }
 
-                    if (deepResolve && option.ResolveID && dsAttribute.Type.Equals("Reference"))
+                    if (!dsAttribute.IsNull &&  dsAttribute.Type.Equals("Reference"))
                     {
-                        if (dsAttribute.IsMultivalued)
+                        dsAttribute.Value = attValue.Attribute.IsMultivalued ? 
+                            attValue.StringValues.FirstOrDefault() : attValue.StringValue;
+                        dsAttribute.Values = attValue.Attribute.IsMultivalued ? 
+                            attValue.StringValues.ToList<object>() : new List<object>() { attValue.StringValue };
+
+                        if (!string.IsNullOrEmpty(dsAttribute.Value.ToString()) && deepResolve && option.ResolveID)
                         {
-                            foreach (string value in attValue.StringValues)
+                            if (dsAttribute.IsMultivalued)
                             {
-                                ResourceObject resolvedObject = client.GetResource(value, option.AttributesToResolve, includePermission);
-                                dsAttribute.ResolvedValues.Add(convertToDSResource(client, resolvedObject, includePermission, option, option.DeepResolve));
+                                foreach (string value in attValue.StringValues)
+                                {
+                                    ResourceObject resolvedObject = client.GetResource(
+                                        value, option.AttributesToResolve, includePermission);
+                                    dsAttribute.ResolvedValues.Add(convertToDSResource(client,
+                                        resolvedObject, option.AttributesToResolve, includePermission, option, option.DeepResolve));
+                                }
+                            }
+                            else
+                            {
+                                ResourceObject resolvedObject = client.GetResource(
+                                    attValue.StringValue, option.AttributesToResolve, includePermission);
+                                dsAttribute.ResolvedValue = convertToDSResource(client,
+                                    resolvedObject, option.AttributesToResolve, includePermission, option, option.DeepResolve);
                             }
                         }
-                        else
-                        {
-                            ResourceObject resolvedObject = client.GetResource(attValue.StringValue, option.AttributesToResolve, includePermission);
-                            dsAttribute.ResolvedValue = convertToDSResource(client, resolvedObject, includePermission, option, option.DeepResolve);
-                        }
                     }
-
+                    
                     attributes.Add(attValue.AttributeName, dsAttribute);
                 }
             }
@@ -164,7 +180,7 @@ namespace OCGDS.MIMResourceRepo
 
             ResourceObject resource = client.GetResource(id, attributes, includePermission);
 
-            return convertToDSResource(client, resource, includePermission, resourceOption);
+            return convertToDSResource(client, resource, attributes, includePermission, resourceOption);
         }
     }
 }
