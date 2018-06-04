@@ -32,13 +32,15 @@ namespace OCGDS.Controllers
         /// <param name="includePermission"></param>
         /// <param name="cultureKey"></param>
         /// <param name="resolveID"></param>
+        /// <param name="deepResolve"></param>
         /// <param name="attributesToResolve"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("get/id")]
         public IHttpActionResult GetResourceByID(
             string connectionInfo, string id, [FromUri] string[] attributesToGet = null, 
-            bool includePermission = false, int cultureKey = 127, bool resolveID = false, [FromUri] string[] attributesToResolve = null)
+            bool includePermission = false, int cultureKey = 127, bool resolveID = false, bool deepResolve = false, 
+            [FromUri] string[] attributesToResolve = null)
         {
             try
             {
@@ -47,7 +49,7 @@ namespace OCGDS.Controllers
                 if (repo != null)
                 {
                     ConnectionInfo ci = ConnectionInfo.BuildConnectionInfo(connectionInfo);
-                    ResourceOption ro = new ResourceOption(ci, cultureKey, resolveID, attributesToResolve);
+                    ResourceOption ro = new ResourceOption(ci, cultureKey, resolveID, deepResolve, attributesToResolve);
 
                     DSResource rs = repo.Value.GetResourceByID(id, (attributesToGet == null || attributesToGet.Length == 0) ? new string[] { "DisplayName" } : attributesToGet, includePermission, ro);
 

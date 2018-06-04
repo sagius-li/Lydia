@@ -75,7 +75,7 @@ namespace OCGDS.MIMResourceRepo
             return attDef;
         }
 
-        public DSResource convertToDSResource(ResourceManagementClient client, ResourceObject resource, bool includePermission, ResourceOption option)
+        public DSResource convertToDSResource(ResourceManagementClient client, ResourceObject resource, bool includePermission, ResourceOption option, bool deepResolve = true)
         {
             DSResource dsResource = new DSResource
             {
@@ -109,8 +109,8 @@ namespace OCGDS.MIMResourceRepo
                         Type = attValue.Attribute.Type.ToString(),
                         IsNull = attValue.IsNull,
                         PermissionHint = attValue.PermissionHint.ToString(),
-                        Value = attValue.Value,
-                        Values = attValue.Attribute.IsMultivalued ? attValue.Values.ToList() : null
+                        Value = attValue.Attribute.IsMultivalued? null : attValue.StringValue,
+                        Values = attValue.Attribute.IsMultivalued ? attValue.StringValues.ToList<object>() : null
                     };
 
                     if (attributeDef != null)
@@ -123,16 +123,20 @@ namespace OCGDS.MIMResourceRepo
                         }
                     }
 
-                    if (option.ResolveID && dsAttribute.Type.Equals("Reference"))
+                    if (deepResolve && option.ResolveID && dsAttribute.Type.Equals("Reference"))
                     {
                         if (dsAttribute.IsMultivalued)
                         {
-
+                            foreach (string value in attValue.StringValues)
+                            {
+                                ResourceObject resolvedObject = client.GetResource(value, option.AttributesToResolve, includePermission);
+                                dsAttribute.ResolvedValues.Add(convertToDSResource(client, resolvedObject, includePermission, option, option.DeepResolve));
+                            }
                         }
                         else
                         {
                             ResourceObject resolvedObject = client.GetResource(attValue.StringValue, option.AttributesToResolve, includePermission);
-                            dsAttribute.ResolvedValue = convertToDSResource(client, resolvedObject, includePermission, option);
+                            dsAttribute.ResolvedValue = convertToDSResource(client, resolvedObject, includePermission, option, option.DeepResolve);
                         }
                     }
 

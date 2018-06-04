@@ -23,7 +23,7 @@ namespace OCGDS.Controllers
         // Get MEF assemblies
         [ImportMany("ResourceManagement", typeof(IOCGDSRepository))]
         IEnumerable<Lazy<IOCGDSRepository, Dictionary<string, object>>> repos { get; set; }
-        
+
         /// <summary>
         /// Get Resource by ObjectID
         /// </summary>
@@ -32,6 +32,7 @@ namespace OCGDS.Controllers
         /// <param name="includePermission"></param>
         /// <param name="cultureKey"></param>
         /// <param name="resolveID"></param>
+        /// <param name="deepResolve"></param>
         /// <param name="attributesToResolve"></param>
         /// <returns></returns>
         [Authorize]
@@ -39,7 +40,8 @@ namespace OCGDS.Controllers
         [Route("get/id")]
         public IHttpActionResult GetResourceByID(
             string id, [FromUri] string[] attributesToGet = null, bool includePermission = false, 
-            int cultureKey = 127, bool resolveID = false, [FromUri] string[] attributesToResolve = null)
+            int cultureKey = 127, bool resolveID = false, bool deepResolve = false, 
+            [FromUri] string[] attributesToResolve = null)
         {
             WindowsImpersonationContext wic = null;
             try
@@ -50,7 +52,7 @@ namespace OCGDS.Controllers
 
                 if (repo != null)
                 {
-                    ResourceOption ro = new ResourceOption(new ConnectionInfo(), cultureKey, resolveID, attributesToResolve);
+                    ResourceOption ro = new ResourceOption(new ConnectionInfo(), cultureKey, resolveID, deepResolve, attributesToResolve);
 
                     DSResource rs = repo.Value.GetResourceByID(id, (attributesToGet == null || attributesToGet.Length == 0) ? new string[] { "DisplayName" } : attributesToGet, includePermission, ro);
 

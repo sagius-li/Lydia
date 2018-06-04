@@ -67,6 +67,7 @@ namespace OCGDS.DSModel
         private ConnectionInfo connectionInfo = new ConnectionInfo();
 
         public bool ResolveID { get; set; }
+        public bool DeepResolve { get; set; }
         public int CultureKey { get; set; }
         public ConnectionInfo ConnectionInfo
         {
@@ -82,14 +83,16 @@ namespace OCGDS.DSModel
         public ResourceOption()
         {
             ResolveID = false;
+            DeepResolve = false;
             CultureKey = 127;
         }
 
-        public ResourceOption(ConnectionInfo connectionInfo, int cultureKey, bool resolveID, string[] attributesToResolve)
+        public ResourceOption(ConnectionInfo connectionInfo, int cultureKey, bool resolveID, bool deepResolve, string[] attributesToResolve)
         {
             ConnectionInfo = connectionInfo;
             CultureKey = cultureKey;
             ResolveID = resolveID;
+            DeepResolve = deepResolve;
             if (attributesToResolve != null && attributesToResolve.Length != 0)
             {
                 AttributesToResolve = attributesToResolve;

@@ -26,7 +26,7 @@
             Controller to work with resources using basic authentication
             </summary>
         </member>
-        <member name="M:OCGDS.Controllers.ResourceBasicAuthController.GetResourceByID(System.String,System.String,System.String[],System.Boolean,System.Int32,System.Boolean,System.String[])">
+        <member name="M:OCGDS.Controllers.ResourceBasicAuthController.GetResourceByID(System.String,System.String,System.String[],System.Boolean,System.Int32,System.Boolean,System.Boolean,System.String[])">
             <summary>
             Get Resource by ObjectID
             </summary>
@@ -36,6 +36,7 @@
             <param name="includePermission"></param>
             <param name="cultureKey"></param>
             <param name="resolveID"></param>
+            <param name="deepResolve"></param>
             <param name="attributesToResolve"></param>
             <returns></returns>
         </member>
@@ -44,7 +45,7 @@
             Controller to work with resources using windows authentication
             </summary>
         </member>
-        <member name="M:OCGDS.Controllers.ResourceWinAuthController.GetResourceByID(System.String,System.String[],System.Boolean,System.Int32,System.Boolean,System.String[])">
+        <member name="M:OCGDS.Controllers.ResourceWinAuthController.GetResourceByID(System.String,System.String[],System.Boolean,System.Int32,System.Boolean,System.Boolean,System.String[])">
             <summary>
             Get Resource by ObjectID
             </summary>
@@ -53,6 +54,7 @@
             <param name="includePermission"></param>
             <param name="cultureKey"></param>
             <param name="resolveID"></param>
+            <param name="deepResolve"></param>
             <param name="attributesToResolve"></param>
             <returns></returns>
         </member>
