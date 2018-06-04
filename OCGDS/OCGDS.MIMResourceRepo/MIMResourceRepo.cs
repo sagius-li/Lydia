@@ -1,4 +1,5 @@
 ﻿using Lithnet.ResourceManagement.Client;
+using Microsoft.ResourceManagement.WebServices.WSEnumeration;
 using OCG.ResourceManagement.ObjectModel.ResourceTypes;
 using OCG.Security.Operation;
 using OCGDS.DSModel;
@@ -73,6 +74,31 @@ namespace OCGDS.MIMResourceRepo
             }
 
             return attDef;
+        }
+
+        private List<SortingAttribute> getSortingAttributes(string[] sortingAttributes)
+        {
+            List<SortingAttribute> retVal = new List<SortingAttribute>();
+
+            if (sortingAttributes != null && sortingAttributes.Length > 0)
+            {
+                foreach (string kvp in sortingAttributes)
+                {
+                    try
+                    {
+                        string[] kvps = kvp.Split(";".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        string attributeName = kvps[0];
+                        string sortType = kvps[1];
+
+                        bool ascending = (sortType.Equals("a", StringComparison.OrdinalIgnoreCase) || sortType.Equals("asc", StringComparison.OrdinalIgnoreCase) || sortType.Equals("ascend", StringComparison.OrdinalIgnoreCase) || sortType.Equals("ascending", StringComparison.OrdinalIgnoreCase)) ? true : false;
+
+                        retVal.Add(new SortingAttribute(attributeName, ascending));
+                    }
+                    catch { }
+                }
+            }
+
+            return retVal;
         }
 
         public DSResource convertToDSResource(ResourceManagementClient client, ResourceObject resource, 
@@ -181,6 +207,48 @@ namespace OCGDS.MIMResourceRepo
             ResourceObject resource = client.GetResource(id, attributes, includePermission);
 
             return convertToDSResource(client, resource, attributes, includePermission, resourceOption);
+        }
+
+        public DSResourceSet GetResourceByQuery(string query, string[] attributes, 
+            int pageSize = 0, int index = 0, ResourceOption resourceOption = null)
+        {
+            ResourceOption option = resourceOption == null ? new ResourceOption() : resourceOption;
+
+            ResourceManagementClient client = getClient(option.ConnectionInfo);
+            client.RefreshSchema();
+
+            DSResourceSet retVal = new DSResourceSet();
+
+            if (pageSize == 0)
+            {
+                List<SortingAttribute> sortingAttributes = getSortingAttributes(resourceOption.SortingAttributes);
+
+                SearchResultCollection src = null;
+
+                if (sortingAttributes.Count == 0)
+                {
+                    src = client.GetResources(query, attributes) as SearchResultCollection;
+                }
+                else
+                {
+                    src = client.GetResources(query, attributes, sortingAttributes) as SearchResultCollection;
+                }
+
+                if (src != null)
+                {
+                    retVal.TotalCount = src.Count;
+                    foreach (ResourceObject resource in src)
+                    {
+                        retVal.Resources.Add(convertToDSResource(client, resource, attributes, false, resourceOption));
+                    }
+                }
+            }
+            else
+            {
+
+            }
+
+            return retVal;
         }
     }
 }

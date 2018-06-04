@@ -76,6 +76,52 @@ namespace OCGDS.Controllers
             }
         }
 
+        /// <summary>
+        /// Get Resource by XPath Query
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="attributesToGet"></param>
+        /// <param name="cultureKey"></param>
+        /// <param name="resolveID"></param>
+        /// <param name="deepResolve"></param>
+        /// <param name="attributesToResolve"></param>
+        /// <returns></returns>
+        //public IHttpActionResult GetResourceByQuery(
+        //    string query, [FromUri] string[] attributesToGet = null, int cultureKey = 127, bool resolveID = false, 
+        //    bool deepResolve = false, [FromUri] string[] attributesToResolve = null)
+        //{
+        //    WindowsImpersonationContext wic = null;
+        //    try
+        //    {
+        //        wic = ((WindowsIdentity)User.Identity).Impersonate();
+
+        //        Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+        //        if (repo != null)
+        //        {
+        //            ResourceOption ro = new ResourceOption(new ConnectionInfo(), cultureKey, resolveID, deepResolve, attributesToResolve);
+
+        //            DSResource rs = repo.Value.GetResourceByID(id, (attributesToGet == null || attributesToGet.Length == 0) ? new string[] { "DisplayName" } : attributesToGet, includePermission, ro);
+
+        //            return Ok(rs);
+        //        }
+        //        else
+        //        {
+        //            return NotFound();
+        //        }
+        //    }
+        //    catch (Exception exp)
+        //    {
+        //        return InternalServerError(exp);
+        //    }
+        //    finally
+        //    {
+        //        if (wic != null)
+        //        {
+        //            wic.Undo();
+        //        }
+        //    }
+        //}
 
     }
 }

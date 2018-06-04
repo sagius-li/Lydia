@@ -64,11 +64,13 @@ namespace OCGDS.DSModel
     public class ResourceOption
     {
         private string[] attributesToResolve = new string[] { "DisplayName" };
+        private string[] sortingAttributes = null;
         private ConnectionInfo connectionInfo = new ConnectionInfo();
 
         public bool ResolveID { get; set; }
         public bool DeepResolve { get; set; }
         public int CultureKey { get; set; }
+
         public ConnectionInfo ConnectionInfo
         {
             get { return connectionInfo; }
@@ -79,15 +81,22 @@ namespace OCGDS.DSModel
             get { return attributesToResolve; }
             set { attributesToResolve = value; }
         }
+        public string[] SortingAttributes
+        {
+            get { return sortingAttributes; }
+            set { sortingAttributes = value; }
+        }
 
         public ResourceOption()
         {
             ResolveID = false;
             DeepResolve = false;
             CultureKey = 127;
+            SortingAttributes = null;
         }
 
-        public ResourceOption(ConnectionInfo connectionInfo, int cultureKey, bool resolveID, bool deepResolve, string[] attributesToResolve)
+        public ResourceOption(ConnectionInfo connectionInfo, int cultureKey = 127, bool resolveID = false, 
+            bool deepResolve = false, string[] attributesToResolve = null, string[] sortingAttributes = null)
         {
             ConnectionInfo = connectionInfo;
             CultureKey = cultureKey;
@@ -97,6 +106,7 @@ namespace OCGDS.DSModel
             {
                 AttributesToResolve = attributesToResolve;
             }
+            SortingAttributes = SortingAttributes;
         }
     }
 
