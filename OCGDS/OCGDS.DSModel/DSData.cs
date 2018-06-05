@@ -32,25 +32,25 @@ namespace OCGDS.DSModel
 
             foreach (string entry in entries)
             {
-                string[] items = entry.Split(":".ToCharArray());
+                string[] items = entry.Trim().Split(":".ToCharArray());
                 if (items.Length != 2)
                 {
                     continue;
                 }
 
-                switch (items[0].ToLower())
+                switch (items[0].Trim().ToLower())
                 {
                     case "baseaddress":
-                        ci.BaseAddress = items[1];
+                        ci.BaseAddress = "http:" + items[1].Trim();
                         break;
                     case "domain":
-                        ci.Domain = items[1];
+                        ci.Domain = items[1].Trim();
                         break;
                     case "username":
-                        ci.UserName = items[1];
+                        ci.UserName = items[1].Trim();
                         break;
                     case "password":
-                        ci.Password = items[1];
+                        ci.Password = items[1].Trim();
                         break;
                     default:
                         break;
@@ -102,11 +102,14 @@ namespace OCGDS.DSModel
             CultureKey = cultureKey;
             ResolveID = resolveID;
             DeepResolve = deepResolve;
-            if (attributesToResolve != null && attributesToResolve.Length != 0)
+            if (attributesToResolve != null && attributesToResolve.Length != 0 && attributesToResolve[0] != null)
             {
                 AttributesToResolve = attributesToResolve;
             }
-            SortingAttributes = SortingAttributes;
+            if (sortingAttributes != null && sortingAttributes.Length != 0 && sortingAttributes[0] != null)
+            {
+                SortingAttributes = sortingAttributes;
+            }
         }
     }
 
@@ -201,10 +204,22 @@ namespace OCGDS.DSModel
 
     public class DSResourceSet
     {
+        private List<DSResource> resources = new List<DSResource>();
+
         public int TotalCount { get; set; }
 
         public bool HasMoreItems { get; set; }
 
-        public List<DSResource> Resources { get; set; }
+        public List<DSResource> Resources
+        {
+            get { return this.resources; }
+            set { this.resources = value; }
+        }
+
+        public DSResourceSet()
+        {
+            TotalCount = 0;
+            HasMoreItems = false;
+        }
     }
 }

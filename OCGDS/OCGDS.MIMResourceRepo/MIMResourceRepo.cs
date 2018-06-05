@@ -86,7 +86,7 @@ namespace OCGDS.MIMResourceRepo
                 {
                     try
                     {
-                        string[] kvps = kvp.Split(";".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        string[] kvps = kvp.Split(":".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         string attributeName = kvps[0];
                         string sortType = kvps[1];
 
@@ -219,20 +219,13 @@ namespace OCGDS.MIMResourceRepo
 
             DSResourceSet retVal = new DSResourceSet();
 
+            List<SortingAttribute> sortingAttributes = getSortingAttributes(resourceOption.SortingAttributes);
+
             if (pageSize == 0)
             {
-                List<SortingAttribute> sortingAttributes = getSortingAttributes(resourceOption.SortingAttributes);
-
-                SearchResultCollection src = null;
-
-                if (sortingAttributes.Count == 0)
-                {
-                    src = client.GetResources(query, attributes) as SearchResultCollection;
-                }
-                else
-                {
-                    src = client.GetResources(query, attributes, sortingAttributes) as SearchResultCollection;
-                }
+                SearchResultCollection src = sortingAttributes.Count == 0 ? 
+                    client.GetResources(query, attributes) as SearchResultCollection : 
+                    client.GetResources(query, attributes, sortingAttributes) as SearchResultCollection;
 
                 if (src != null)
                 {
@@ -245,7 +238,24 @@ namespace OCGDS.MIMResourceRepo
             }
             else
             {
+                SearchResultPager srp = sortingAttributes.Count == 0 ? 
+                    client.GetResourcesPaged(query, pageSize, attributes) : 
+                    client.GetResourcesPaged(query, pageSize, attributes, sortingAttributes);
 
+                if (index >= 0)
+                {
+                    srp.CurrentIndex = index;
+                }
+
+                srp.PageSize = pageSize;
+
+                foreach (ResourceObject resource in srp.GetNextPage())
+                {
+                    retVal.Resources.Add(convertToDSResource(client, resource, attributes, false, resourceOption));
+                }
+
+                retVal.TotalCount = srp.TotalCount;
+                retVal.HasMoreItems = srp.HasMoreItems;
             }
 
             return retVal;

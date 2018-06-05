@@ -12,5 +12,8 @@ namespace OCGDS.DSModel
 
         DSResource GetResourceByID(
             string id, string[] attributes, bool includePermission = false, ResourceOption resourceOption = null);
+
+        DSResourceSet GetResourceByQuery(
+            string query, string[] attributes, int pageSize = 0, int index = 0, ResourceOption resourceOption = null);
     }
 }

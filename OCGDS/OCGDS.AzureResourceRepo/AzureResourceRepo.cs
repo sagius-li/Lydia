@@ -21,5 +21,10 @@ namespace OCGDS.AzureResourceRepo
         {
             throw new NotImplementedException();
         }
+
+        public DSResourceSet GetResourceByQuery(string query, string[] attributes, int pageSize = 0, int index = 0, ResourceOption resourceOption = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
