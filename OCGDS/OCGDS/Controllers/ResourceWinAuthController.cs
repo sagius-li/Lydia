@@ -180,7 +180,7 @@ namespace OCGDS.Controllers
         /// <summary>
         /// Create Resource
         /// </summary>
-        /// <param name="resource">[Required] Resource</param>
+        /// <param name="resource">[Required] Resource to create</param>
         /// <returns></returns>
         [Authorize]
         [HttpPost]
@@ -197,6 +197,48 @@ namespace OCGDS.Controllers
                 if (repo != null)
                 {
                     string id = repo.Value.CreateResource(resource);
+
+                    return Ok(id);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+            finally
+            {
+                if (wic != null)
+                {
+                    wic.Undo();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update Resource
+        /// </summary>
+        /// <param name="resource">[Required] Resource to create</param>
+        /// <param name="isDelta">[Optional] Only update Attributes with Dirty-Flag</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        [Route("update")]
+        public IHttpActionResult UpdateResource(DSResource resource, bool isDelta = false)
+        {
+            WindowsImpersonationContext wic = null;
+            try
+            {
+                wic = ((WindowsIdentity)User.Identity).Impersonate();
+
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    string id = repo.Value.UpdateResource(resource, isDelta);
 
                     return Ok(id);
                 }

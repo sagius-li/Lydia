@@ -19,5 +19,7 @@ namespace OCGDS.DSModel
         void DeleteResource(string id, ResourceOption resourceOption = null);
 
         string CreateResource(DSResource resource, ResourceOption resourceOption = null);
+
+        string UpdateResource(DSResource resource, bool isDelta = false, ResourceOption resourceOption = null);
     }
 }

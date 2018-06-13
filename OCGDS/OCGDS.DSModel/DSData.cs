@@ -183,6 +183,7 @@ namespace OCGDS.DSModel
         public bool IsMultivalued { get; set; }
         public bool IsReadOnly { get; set; }
         public bool IsRequired { get; set; }
+        public bool IsDirty { get; set; }
         public string Regex { get; set; }
         public string SystemName { get; set; }
         public string Type { get; set; }

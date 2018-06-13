@@ -96,5 +96,20 @@
             <param name="id">[Required] ObjectID</param>
             <returns></returns>
         </member>
+        <member name="M:OCGDS.Controllers.ResourceWinAuthController.CreateResource(OCGDS.DSModel.DSResource)">
+            <summary>
+            Create Resource
+            </summary>
+            <param name="resource">[Required] Resource to create</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceWinAuthController.UpdateResource(OCGDS.DSModel.DSResource,System.Boolean)">
+            <summary>
+            Update Resource
+            </summary>
+            <param name="resource">[Required] Resource to create</param>
+            <param name="isDelta">[Optional] Only update Attributes with Dirty-Flag</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

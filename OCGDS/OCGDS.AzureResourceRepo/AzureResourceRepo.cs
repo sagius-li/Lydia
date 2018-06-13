@@ -36,5 +36,10 @@ namespace OCGDS.AzureResourceRepo
         {
             throw new NotImplementedException();
         }
+
+        public string UpdateResource(DSResource resource, bool isDelta = false, ResourceOption resourceOption = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

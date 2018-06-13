@@ -1,4 +1,5 @@
 ﻿using Lithnet.ResourceManagement.Client;
+using Microsoft.ResourceManagement.WebServices;
 using Microsoft.ResourceManagement.WebServices.WSEnumeration;
 using OCG.ResourceManagement.ObjectModel.ResourceTypes;
 using OCG.Security.Operation;
@@ -191,10 +192,15 @@ namespace OCGDS.MIMResourceRepo
             return dsResource;
         }
 
-        public void convertToResourceObject(DSResource dsResource, ref ResourceObject objResource)
+        public void convertToResourceObject(DSResource dsResource, ref ResourceObject objResource, bool delta = false)
         {
             foreach (KeyValuePair<string, DSAttribute> kvp in dsResource.Attributes)
             {
+                if (delta && !kvp.Value.IsDirty)
+                {
+                    continue;
+                }
+
                 if (kvp.Value.IsMultivalued)
                 {
                     objResource.Attributes[kvp.Key].SetValue(kvp.Value.Values);
@@ -294,6 +300,22 @@ namespace OCGDS.MIMResourceRepo
             ResourceObject objResource = client.CreateResource(resource.ObjectType);
 
             convertToResourceObject(resource, ref objResource);
+
+            objResource.Save();
+
+            return objResource.ObjectID.Value;
+        }
+
+        public string UpdateResource(DSResource resource, bool isDelta = false, ResourceOption resourceOption = null)
+        {
+            ResourceOption option = resourceOption == null ? new ResourceOption() : resourceOption;
+
+            ResourceManagementClient client = getClient(option.ConnectionInfo);
+
+            ResourceObject objResource = client.CreateResourceTemplateForUpdate(
+                resource.ObjectType, new UniqueIdentifier(resource.ObjectID));
+
+            convertToResourceObject(resource, ref objResource, isDelta);
 
             objResource.Save();
 
