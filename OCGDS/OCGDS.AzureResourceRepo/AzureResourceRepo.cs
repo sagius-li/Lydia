@@ -26,5 +26,15 @@ namespace OCGDS.AzureResourceRepo
         {
             throw new NotImplementedException();
         }
+
+        public void DeleteResource(string id, ResourceOption resourceOption = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string CreateResource(DSResource resource, ResourceOption resourceOption = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

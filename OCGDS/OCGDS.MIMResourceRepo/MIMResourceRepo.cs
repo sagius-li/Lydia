@@ -191,6 +191,21 @@ namespace OCGDS.MIMResourceRepo
             return dsResource;
         }
 
+        public void convertToResourceObject(DSResource dsResource, ref ResourceObject objResource)
+        {
+            foreach (KeyValuePair<string, DSAttribute> kvp in dsResource.Attributes)
+            {
+                if (kvp.Value.IsMultivalued)
+                {
+                    objResource.Attributes[kvp.Key].SetValue(kvp.Value.Values);
+                }
+                else
+                {
+                    objResource.Attributes[kvp.Key].SetValue(kvp.Value.Value);
+                }
+            }
+        }
+
         public new string GetType()
         {
             return "MIM Resource Repository";
@@ -259,6 +274,30 @@ namespace OCGDS.MIMResourceRepo
             }
 
             return retVal;
+        }
+
+        public void DeleteResource(string id, ResourceOption resourceOption = null)
+        {
+            ResourceOption option = resourceOption == null ? new ResourceOption() : resourceOption;
+
+            ResourceManagementClient client = getClient(option.ConnectionInfo);
+
+            client.DeleteResource(id);
+        }
+
+        public string CreateResource(DSResource resource, ResourceOption resourceOption = null)
+        {
+            ResourceOption option = resourceOption == null ? new ResourceOption() : resourceOption;
+
+            ResourceManagementClient client = getClient(option.ConnectionInfo);
+
+            ResourceObject objResource = client.CreateResource(resource.ObjectType);
+
+            convertToResourceObject(resource, ref objResource);
+
+            objResource.Save();
+
+            return objResource.ObjectID.Value;
         }
     }
 }

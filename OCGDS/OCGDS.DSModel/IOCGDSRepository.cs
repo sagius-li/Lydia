@@ -15,5 +15,9 @@ namespace OCGDS.DSModel
 
         DSResourceSet GetResourceByQuery(
             string query, string[] attributes, int pageSize = 0, int index = 0, ResourceOption resourceOption = null);
+
+        void DeleteResource(string id, ResourceOption resourceOption = null);
+
+        string CreateResource(DSResource resource, ResourceOption resourceOption = null);
     }
 }

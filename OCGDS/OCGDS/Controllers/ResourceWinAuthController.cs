@@ -136,5 +136,86 @@ namespace OCGDS.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete Resource with the given Object ID
+        /// </summary>
+        /// <param name="id">[Required] ObjectID</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpDelete]
+        [Route("delete")]
+        public IHttpActionResult DeleteResource(string id)
+        {
+            WindowsImpersonationContext wic = null;
+            try
+            {
+                wic = ((WindowsIdentity)User.Identity).Impersonate();
+
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    repo.Value.DeleteResource(id);
+
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+            finally
+            {
+                if (wic != null)
+                {
+                    wic.Undo();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Create Resource
+        /// </summary>
+        /// <param name="resource">[Required] Resource</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        [Route("create")]
+        public IHttpActionResult CreateResource(DSResource resource)
+        {
+            WindowsImpersonationContext wic = null;
+            try
+            {
+                wic = ((WindowsIdentity)User.Identity).Impersonate();
+
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    string id = repo.Value.CreateResource(resource);
+
+                    return Ok(id);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+            finally
+            {
+                if (wic != null)
+                {
+                    wic.Undo();
+                }
+            }
+        }
     }
 }

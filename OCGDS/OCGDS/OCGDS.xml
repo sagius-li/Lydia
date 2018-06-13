@@ -89,5 +89,12 @@
             <param name="attributesToSort">[Optional(Default:null)] Attributes to sort)]</param>
             <returns>DSResourceSet</returns>
         </member>
+        <member name="M:OCGDS.Controllers.ResourceWinAuthController.DeleteResource(System.String)">
+            <summary>
+            Delete Resource with the given Object ID
+            </summary>
+            <param name="id">[Required] ObjectID</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
