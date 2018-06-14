@@ -282,6 +282,15 @@ namespace OCGDS.MIMResourceRepo
             return retVal;
         }
 
+        public int GetResourceCount(string query, ResourceOption resourceOption = null)
+        {
+            ResourceOption option = resourceOption == null ? new ResourceOption() : resourceOption;
+
+            ResourceManagementClient client = getClient(option.ConnectionInfo);
+
+            return client.GetResourceCount(query);
+        }
+
         public void DeleteResource(string id, ResourceOption resourceOption = null)
         {
             ResourceOption option = resourceOption == null ? new ResourceOption() : resourceOption;
@@ -317,9 +326,89 @@ namespace OCGDS.MIMResourceRepo
 
             convertToResourceObject(resource, ref objResource, isDelta);
 
-            objResource.Save();
+            try
+            {
+                objResource.Save();
+            }
+            catch (AuthorizationRequiredException)
+            {
+                return "AuthorizationRequired";
+            }
+            
+            return objResource.ObjectID.Value;
+        }
+
+        public string AddValuesToResource(string id, string attributeName, string[] valuesToAdd, ResourceOption resourceOption = null)
+        {
+            if (valuesToAdd == null || valuesToAdd.Length == 0)
+            {
+                return id;
+            }
+
+            ResourceOption option = resourceOption == null ? new ResourceOption() : resourceOption;
+
+            ResourceManagementClient client = getClient(option.ConnectionInfo);
+            client.RefreshSchema();
+
+            ResourceObject objResource = client.GetResource(id, new string[] { attributeName });
+
+            if (objResource == null)
+            {
+                throw new Exception($"No Resource was found with ObjectID: {id}");
+            }
+
+            foreach (string value in valuesToAdd)
+            {
+                objResource.AddValue(attributeName, value);
+            }
+
+            try
+            {
+                objResource.Save();
+            }
+            catch (AuthorizationRequiredException)
+            {
+                return "AuthorizationRequired";
+            }
 
             return objResource.ObjectID.Value;
         }
+
+        public string RemoveValuesFromResource(string id, string attributeName, string[] valuesToRemove, ResourceOption resourceOption = null)
+        {
+            if (valuesToRemove == null || valuesToRemove.Length == 0)
+            {
+                return id;
+            }
+
+            ResourceOption option = resourceOption == null ? new ResourceOption() : resourceOption;
+
+            ResourceManagementClient client = getClient(option.ConnectionInfo);
+            client.RefreshSchema();
+
+            ResourceObject objResource = client.GetResource(id, new string[] { attributeName });
+
+            if (objResource == null)
+            {
+                throw new Exception($"No Resource was found with ObjectID: {id}");
+            }
+
+            foreach (string value in valuesToRemove)
+            {
+                objResource.RemoveValue(attributeName, value);
+            }
+
+            try
+            {
+                objResource.Save();
+            }
+            catch (AuthorizationRequiredException)
+            {
+                return "AuthorizationRequired";
+            }
+
+            return objResource.ObjectID.Value;
+        }
+
     }
 }

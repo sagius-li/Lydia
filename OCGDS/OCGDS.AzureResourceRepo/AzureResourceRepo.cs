@@ -27,6 +27,11 @@ namespace OCGDS.AzureResourceRepo
             throw new NotImplementedException();
         }
 
+        public int GetResourceCount(string query, ResourceOption resourceOption = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteResource(string id, ResourceOption resourceOption = null)
         {
             throw new NotImplementedException();
@@ -38,6 +43,16 @@ namespace OCGDS.AzureResourceRepo
         }
 
         public string UpdateResource(DSResource resource, bool isDelta = false, ResourceOption resourceOption = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string AddValuesToResource(string id, string attributeName, string[] valuesToAdd, ResourceOption resourceOption = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string RemoveValuesFromResource(string id, string attributeName, string[] valuesToRemove, ResourceOption resourceOption = null)
         {
             throw new NotImplementedException();
         }

@@ -137,6 +137,47 @@ namespace OCGDS.Controllers
         }
 
         /// <summary>
+        /// Get Resource Count
+        /// </summary>
+        /// <param name="query">[Required] XPath Query to filter Resources</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        [Route("get/count")]
+        public IHttpActionResult GetResourceCount(string query)
+        {
+            WindowsImpersonationContext wic = null;
+            try
+            {
+                wic = ((WindowsIdentity)User.Identity).Impersonate();
+
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    int count = repo.Value.GetResourceCount(query);
+
+                    return Ok(count);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+            finally
+            {
+                if (wic != null)
+                {
+                    wic.Undo();
+                }
+            }
+        }
+
+        /// <summary>
         /// Delete Resource with the given Object ID
         /// </summary>
         /// <param name="id">[Required] ObjectID</param>
@@ -240,6 +281,11 @@ namespace OCGDS.Controllers
                 {
                     string id = repo.Value.UpdateResource(resource, isDelta);
 
+                    if (id.Equals("AuthorizationRequired"))
+                    {
+                        return Content(HttpStatusCode.PartialContent, id);
+                    }
+
                     return Ok(id);
                 }
                 else
@@ -259,5 +305,103 @@ namespace OCGDS.Controllers
                 }
             }
         }
+
+        /// <summary>
+        /// Add Values to a multivalued Attribute
+        /// </summary>
+        /// <param name="objectID">[Required] ObjectID of the Resource to add Values</param>
+        /// <param name="attributeName">[Required] Attribute to add Values</param>
+        /// <param name="valuesToAdd">[Required] Values to add</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        [Route("values/add")]
+        public IHttpActionResult AddValuesToResource(string objectID, string attributeName, [FromUri] string[] valuesToAdd)
+        {
+            WindowsImpersonationContext wic = null;
+            try
+            {
+                wic = ((WindowsIdentity)User.Identity).Impersonate();
+
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    string id = repo.Value.AddValuesToResource(objectID, attributeName, valuesToAdd);
+
+                    if (id.Equals("AuthorizationRequired"))
+                    {
+                        return Content(HttpStatusCode.PartialContent, id);
+                    }
+
+                    return Ok(id);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+            finally
+            {
+                if (wic != null)
+                {
+                    wic.Undo();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Remove Values from a multivalued Attribute
+        /// </summary>
+        /// <param name="objectID">[Required] ObjectID of the Resource to remove Values from</param>
+        /// <param name="attributeName">[Required] Attribute to remove Values from</param>
+        /// <param name="valuesToRemove">[Required] Values to remove</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        [Route("values/remove")]
+        public IHttpActionResult RemoveValuesFromResource(string objectID, string attributeName, [FromUri] string[] valuesToRemove)
+        {
+            WindowsImpersonationContext wic = null;
+            try
+            {
+                wic = ((WindowsIdentity)User.Identity).Impersonate();
+
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    string id = repo.Value.RemoveValuesFromResource(objectID, attributeName, valuesToRemove);
+
+                    if (id.Equals("AuthorizationRequired"))
+                    {
+                        return Content(HttpStatusCode.PartialContent, id);
+                    }
+
+                    return Ok(id);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+            finally
+            {
+                if (wic != null)
+                {
+                    wic.Undo();
+                }
+            }
+        }
+
+
     }
 }

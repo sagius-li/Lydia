@@ -89,6 +89,13 @@
             <param name="attributesToSort">[Optional(Default:null)] Attributes to sort)]</param>
             <returns>DSResourceSet</returns>
         </member>
+        <member name="M:OCGDS.Controllers.ResourceWinAuthController.GetResourceCount(System.String)">
+            <summary>
+            Get Resource Count
+            </summary>
+            <param name="query">[Required] XPath Query to filter Resources</param>
+            <returns></returns>
+        </member>
         <member name="M:OCGDS.Controllers.ResourceWinAuthController.DeleteResource(System.String)">
             <summary>
             Delete Resource with the given Object ID
@@ -109,6 +116,24 @@
             </summary>
             <param name="resource">[Required] Resource to create</param>
             <param name="isDelta">[Optional] Only update Attributes with Dirty-Flag</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceWinAuthController.AddValuesToResource(System.String,System.String,System.String[])">
+            <summary>
+            Add Values to a multivalued Attribute
+            </summary>
+            <param name="objectID">[Required] ObjectID of the Resource to add Values</param>
+            <param name="attributeName">[Required] Attribute to add Values</param>
+            <param name="valuesToAdd">[Required] Values to add</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceWinAuthController.RemoveValuesFromResource(System.String,System.String,System.String[])">
+            <summary>
+            Remove Values from a multivalued Attribute
+            </summary>
+            <param name="objectID">[Required] ObjectID of the Resource to remove Values from</param>
+            <param name="attributeName">[Required] Attribute to remove Values from</param>
+            <param name="valuesToRemove">[Required] Values to remove</param>
             <returns></returns>
         </member>
     </members>
