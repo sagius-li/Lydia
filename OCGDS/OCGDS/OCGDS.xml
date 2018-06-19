@@ -17,7 +17,14 @@
         </member>
         <member name="M:OCGDS.Controllers.GenericController.GetInfo(System.String)">
             <summary>
-            Get information
+            Get repository information
+            </summary>
+            <param name="name">[Required] Name of the using repository</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.GenericController.GetLanguage">
+            <summary>
+            Get browser language
             </summary>
             <returns></returns>
         </member>
@@ -55,6 +62,59 @@
             <param name="attributesToResolve">[Optional(Default:["DisplayName"])] Attributes to Resolve)]</param>
             <param name="attributesToSort">[Optional(Default:null)] Attributes to sort)]</param>
             <returns>DSResourceSet</returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceBasicAuthController.GetResourceCount(System.String,System.String)">
+            <summary>
+            Get Resource Count
+            </summary>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="query">[Required] XPath Query to filter Resources</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceBasicAuthController.DeleteResource(System.String,System.String)">
+            <summary>
+            Delete Resource with the given Object ID
+            </summary>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="id">[Required] ObjectID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceBasicAuthController.CreateResource(System.String,OCGDS.DSModel.DSResource)">
+            <summary>
+            Create Resource
+            </summary>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="resource">[Required] Resource to create</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceBasicAuthController.UpdateResource(System.String,OCGDS.DSModel.DSResource,System.Boolean)">
+            <summary>
+            Update Resource
+            </summary>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="resource">[Required] Resource to create</param>
+            <param name="isDelta">[Optional] Only update Attributes with Dirty-Flag</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceBasicAuthController.AddValuesToResource(System.String,System.String,System.String,System.String[])">
+            <summary>
+            Add Values to a multivalued Attribute
+            </summary>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="objectID">[Required] ObjectID of the Resource to add Values</param>
+            <param name="attributeName">[Required] Attribute to add Values</param>
+            <param name="valuesToAdd">[Required] Values to add</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceBasicAuthController.RemoveValuesFromResource(System.String,System.String,System.String,System.String[])">
+            <summary>
+            Remove Values from a multivalued Attribute
+            </summary>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="objectID">[Required] ObjectID of the Resource to remove Values from</param>
+            <param name="attributeName">[Required] Attribute to remove Values from</param>
+            <param name="valuesToRemove">[Required] Values to remove</param>
+            <returns></returns>
         </member>
         <member name="T:OCGDS.Controllers.ResourceWinAuthController">
             <summary>

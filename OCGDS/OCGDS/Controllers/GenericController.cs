@@ -48,8 +48,9 @@ namespace OCGDS.Controllers
         }
 
         /// <summary>
-        /// Get information
+        /// Get repository information
         /// </summary>
+        /// <param name="name">[Required] Name of the using repository</param>
         /// <returns></returns>
         [HttpGet]
         [Route("info")]
@@ -65,6 +66,26 @@ namespace OCGDS.Controllers
             {
                 return NotFound();
             }
+        }
+
+        /// <summary>
+        /// Get browser language
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("language")]
+        public IHttpActionResult GetLanguage()
+        {
+            if (Request.Headers.Contains("Accept-Language"))
+            {
+                string language = Request.Headers.GetValues("Accept-Language").FirstOrDefault();
+                if (!string.IsNullOrEmpty(language))
+                {
+                    return Ok(language);
+                }
+            }
+
+            return Ok(string.Empty);
         }
     }
 }

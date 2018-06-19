@@ -116,5 +116,212 @@ namespace OCGDS.Controllers
                 return InternalServerError(exp);
             }
         }
+
+        /// <summary>
+        /// Get Resource Count
+        /// </summary>
+        /// <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+        /// <param name="query">[Required] XPath Query to filter Resources</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("get/count")]
+        public IHttpActionResult GetResourceCount(string connectionInfo, string query)
+        {
+            try
+            {
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    int count = repo.Value.GetResourceCount(query);
+
+                    return Ok(count);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+        }
+
+        /// <summary>
+        /// Delete Resource with the given Object ID
+        /// </summary>
+        /// <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+        /// <param name="id">[Required] ObjectID</param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("delete")]
+        public IHttpActionResult DeleteResource(string connectionInfo, string id)
+        {
+            try
+            {
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    repo.Value.DeleteResource(id);
+
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+        }
+
+        /// <summary>
+        /// Create Resource
+        /// </summary>
+        /// <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+        /// <param name="resource">[Required] Resource to create</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("create")]
+        public IHttpActionResult CreateResource(string connectionInfo, DSResource resource)
+        {
+            try
+            {
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    string id = repo.Value.CreateResource(resource);
+
+                    return Ok(id);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+        }
+
+        /// <summary>
+        /// Update Resource
+        /// </summary>
+        /// <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+        /// <param name="resource">[Required] Resource to create</param>
+        /// <param name="isDelta">[Optional] Only update Attributes with Dirty-Flag</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("update")]
+        public IHttpActionResult UpdateResource(string connectionInfo, DSResource resource, bool isDelta = false)
+        {
+            try
+            {
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    string id = repo.Value.UpdateResource(resource, isDelta);
+
+                    if (id.Equals("AuthorizationRequired"))
+                    {
+                        return Content(HttpStatusCode.PartialContent, id);
+                    }
+
+                    return Ok(id);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+        }
+
+        /// <summary>
+        /// Add Values to a multivalued Attribute
+        /// </summary>
+        /// <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+        /// <param name="objectID">[Required] ObjectID of the Resource to add Values</param>
+        /// <param name="attributeName">[Required] Attribute to add Values</param>
+        /// <param name="valuesToAdd">[Required] Values to add</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("values/add")]
+        public IHttpActionResult AddValuesToResource(string connectionInfo, string objectID, string attributeName, [FromUri] string[] valuesToAdd)
+        {
+            try
+            {
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    string id = repo.Value.AddValuesToResource(objectID, attributeName, valuesToAdd);
+
+                    if (id.Equals("AuthorizationRequired"))
+                    {
+                        return Content(HttpStatusCode.PartialContent, id);
+                    }
+
+                    return Ok(id);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+        }
+
+        /// <summary>
+        /// Remove Values from a multivalued Attribute
+        /// </summary>
+        /// <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+        /// <param name="objectID">[Required] ObjectID of the Resource to remove Values from</param>
+        /// <param name="attributeName">[Required] Attribute to remove Values from</param>
+        /// <param name="valuesToRemove">[Required] Values to remove</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("values/remove")]
+        public IHttpActionResult RemoveValuesFromResource(string connectionInfo, string objectID, string attributeName, [FromUri] string[] valuesToRemove)
+        {
+            try
+            {
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    string id = repo.Value.RemoveValuesFromResource(objectID, attributeName, valuesToRemove);
+
+                    if (id.Equals("AuthorizationRequired"))
+                    {
+                        return Content(HttpStatusCode.PartialContent, id);
+                    }
+
+                    return Ok(id);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+        }
+
     }
 }
