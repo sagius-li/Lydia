@@ -149,6 +149,13 @@
             <param name="attributesToSort">[Optional(Default:null)] Attributes to sort)]</param>
             <returns>DSResourceSet</returns>
         </member>
+        <member name="M:OCGDS.Controllers.ResourceWinAuthController.GetCurrentUser(System.String[])">
+            <summary>
+            Get portal resource of current login user using windows authentication
+            </summary>
+            <param name="attributesToGet">[Optional(Default:["DisplayName"])] Attributes to Get</param>
+            <returns>DSResource</returns>
+        </member>
         <member name="M:OCGDS.Controllers.ResourceWinAuthController.GetResourceCount(System.String)">
             <summary>
             Get Resource Count

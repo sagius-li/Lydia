@@ -240,7 +240,7 @@ namespace OCGDS.MIMResourceRepo
 
             DSResourceSet retVal = new DSResourceSet();
 
-            List<SortingAttribute> sortingAttributes = getSortingAttributes(resourceOption.SortingAttributes);
+            List<SortingAttribute> sortingAttributes = getSortingAttributes(option.SortingAttributes);
 
             if (pageSize == 0)
             {
@@ -253,7 +253,7 @@ namespace OCGDS.MIMResourceRepo
                     retVal.TotalCount = src.Count;
                     foreach (ResourceObject resource in src)
                     {
-                        retVal.Resources.Add(convertToDSResource(client, resource, attributes, false, resourceOption));
+                        retVal.Resources.Add(convertToDSResource(client, resource, attributes, false, option));
                     }
                 }
             }
@@ -272,7 +272,7 @@ namespace OCGDS.MIMResourceRepo
 
                 foreach (ResourceObject resource in srp.GetNextPage())
                 {
-                    retVal.Resources.Add(convertToDSResource(client, resource, attributes, false, resourceOption));
+                    retVal.Resources.Add(convertToDSResource(client, resource, attributes, false, option));
                 }
 
                 retVal.TotalCount = srp.TotalCount;

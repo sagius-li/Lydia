@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -117,6 +118,63 @@ namespace OCGDS.Controllers
                         ro);
 
                     return Ok(rss);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception exp)
+            {
+                return InternalServerError(exp);
+            }
+            finally
+            {
+                if (wic != null)
+                {
+                    wic.Undo();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get portal resource of current login user using windows authentication
+        /// </summary>
+        /// <param name="attributesToGet">[Optional(Default:["DisplayName"])] Attributes to Get</param>
+        /// <returns>DSResource</returns>
+        [Authorize]
+        [HttpGet]
+        [Route("get/currentuser")]
+        public IHttpActionResult GetCurrentUser([FromUri] string[] attributesToGet = null)
+        {
+            WindowsImpersonationContext wic = null;
+            try
+            {
+                wic = ((WindowsIdentity)User.Identity).Impersonate();
+
+                Lazy<IOCGDSRepository> repo = RepositoryManager.GetRepository(repos, "MIMResource");
+
+                if (repo != null)
+                {
+                    ResourceOption ro = new ResourceOption();
+
+                    string userName = HttpContext.Current.User.Identity.Name;
+                    int pos = userName.IndexOf(@"\");
+                    string accountName = userName.Substring(pos + 1);
+                    string query = string.Format(@"/Person[AccountName='{0}']", accountName);
+
+                    DSResourceSet rss = repo.Value.GetResourceByQuery(query, 
+                        (attributesToGet == null || attributesToGet.Length == 0) ? 
+                        new string[] { "DisplayName" } : attributesToGet);
+
+                    if (rss != null && rss.TotalCount == 1)
+                    {
+                        return Ok(rss.Resources.First());
+                    }
+                    else
+                    {
+                        return InternalServerError(new Exception($"account not found: {accountName}"));
+                    }
                 }
                 else
                 {
