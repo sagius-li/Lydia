@@ -28,6 +28,105 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OCGDS.Controllers.GenericController.GetEncryptionKey">
+            <summary>
+            Get encryption key
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OCGDS.Controllers.ResourceAdminAuthController">
+            <summary>
+            Controller to work with resources using portal admin authentication
+            </summary>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceAdminAuthController.#ctor">
+            <summary>
+            Constructure
+            </summary>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceAdminAuthController.GetResourceByID(System.String,System.String,System.String[],System.Boolean,System.Int32,System.Boolean,System.Boolean,System.String[])">
+            <summary>
+            Get Resource by ObjectID
+            </summary>
+            <param name="encryptionKey">[Required] Required to use admin access</param>
+            <param name="id">[Required] ObjectID</param>
+            <param name="attributesToGet">[Optional(Default:["DisplayName"])] Attributes to Get</param>
+            <param name="includePermission">[Optional(Default:False)] Inculde Permission</param>
+            <param name="cultureKey">[Optional(Default:127)] Culture Key</param>
+            <param name="resolveID">[Optional(Default:False)] Resolve Reference Attributes</param>
+            <param name="deepResolve">[Optional(Default:False)] Resolve nested Reference Attributes</param>
+            <param name="attributesToResolve">[Optional(Default:["DisplayName"])] Attributes to Resolve)]</param>
+            <returns>DSResource</returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceAdminAuthController.GetResourceByQuery(System.String,System.String,System.String[],System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.String[],System.String[])">
+            <summary>
+            Get Resource by XPath Query
+            </summary>
+            <param name="encryptionKey">[Required] Required to use admin access</param>
+            <param name="query">[Required] XPath Query</param>
+            <param name="attributesToGet">[Optional(Default:["DisplayName"])] Attributes to Get</param>
+            <param name="pageSize">[Optional(Default:0)] Page Size, if set to 0, no Paging will be made</param>
+            <param name="index">[Optional(Default:0)] Start Index of Paging</param>
+            <param name="cultureKey">[Optional(Default:127)] Culture Key</param>
+            <param name="resolveID">[Optional(Default:False)] Resolve Reference Attributes</param>
+            <param name="deepResolve">[Optional(Default:False)] Resolve nested Reference Attributes</param>
+            <param name="attributesToResolve">[Optional(Default:["DisplayName"])] Attributes to Resolve)]</param>
+            <param name="attributesToSort">[Optional(Default:null)] Attributes to sort)]</param>
+            <returns>DSResourceSet</returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceAdminAuthController.GetResourceCount(System.String,System.String)">
+            <summary>
+            Get Resource Count
+            </summary>
+            <param name="encryptionKey">[Required] Required to use admin access</param>
+            <param name="query">[Required] XPath Query to filter Resources</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceAdminAuthController.DeleteResource(System.String,System.String)">
+            <summary>
+            Delete Resource with the given Object ID
+            </summary>
+            <param name="encryptionKey">[Required] Required to use admin access</param>
+            <param name="id">[Required] ObjectID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceAdminAuthController.CreateResource(System.String,OCGDS.DSModel.DSResource)">
+            <summary>
+            Create Resource
+            </summary>
+            <param name="encryptionKey">[Required] Required to use admin access</param>
+            <param name="resource">[Required] Resource to create</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceAdminAuthController.UpdateResource(System.String,OCGDS.DSModel.DSResource,System.Boolean)">
+            <summary>
+            Update Resource
+            </summary>
+            <param name="encryptionKey">[Required] Required to use admin access</param>
+            <param name="resource">[Required] Resource to create</param>
+            <param name="isDelta">[Optional] Only update Attributes with Dirty-Flag</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceAdminAuthController.AddValuesToResource(System.String,System.String,System.String,System.String[])">
+            <summary>
+            Add Values to a multivalued Attribute
+            </summary>
+            <param name="encryptionKey">[Required] Required to use admin access</param>
+            <param name="objectID">[Required] ObjectID of the Resource to add Values</param>
+            <param name="attributeName">[Required] Attribute to add Values</param>
+            <param name="valuesToAdd">[Required] Values to add</param>
+            <returns></returns>
+        </member>
+        <member name="M:OCGDS.Controllers.ResourceAdminAuthController.RemoveValuesFromResource(System.String,System.String,System.String,System.String[])">
+            <summary>
+            Remove Values from a multivalued Attribute
+            </summary>
+            <param name="encryptionKey">[Required] Required to use admin access</param>
+            <param name="objectID">[Required] ObjectID of the Resource to remove Values from</param>
+            <param name="attributeName">[Required] Attribute to remove Values from</param>
+            <param name="valuesToRemove">[Required] Values to remove</param>
+            <returns></returns>
+        </member>
         <member name="T:OCGDS.Controllers.ResourceBasicAuthController">
             <summary>
             Controller to work with resources using basic authentication
@@ -37,7 +136,7 @@
             <summary>
             Get Resource by ObjectID
             </summary>
-            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:yJJI/p/lc+WDOoNCR/l/3g==</param>
             <param name="id">[Required] ObjectID</param>
             <param name="attributesToGet">[Optional(Default:["DisplayName"])] Attributes to Get</param>
             <param name="includePermission">[Optional(Default:False)] Inculde Permission</param>
@@ -51,7 +150,7 @@
             <summary>
             Get Resource by XPath Query
             </summary>
-            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:yJJI/p/lc+WDOoNCR/l/3g==</param>
             <param name="query">[Required] XPath Query</param>
             <param name="attributesToGet">[Optional(Default:["DisplayName"])] Attributes to Get</param>
             <param name="pageSize">[Optional(Default:0)] Page Size, if set to 0, no Paging will be made</param>
@@ -67,7 +166,7 @@
             <summary>
             Get Resource Count
             </summary>
-            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:yJJI/p/lc+WDOoNCR/l/3g==</param>
             <param name="query">[Required] XPath Query to filter Resources</param>
             <returns></returns>
         </member>
@@ -75,7 +174,7 @@
             <summary>
             Delete Resource with the given Object ID
             </summary>
-            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:yJJI/p/lc+WDOoNCR/l/3g==</param>
             <param name="id">[Required] ObjectID</param>
             <returns></returns>
         </member>
@@ -83,7 +182,7 @@
             <summary>
             Create Resource
             </summary>
-            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:yJJI/p/lc+WDOoNCR/l/3g==</param>
             <param name="resource">[Required] Resource to create</param>
             <returns></returns>
         </member>
@@ -91,7 +190,7 @@
             <summary>
             Update Resource
             </summary>
-            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:yJJI/p/lc+WDOoNCR/l/3g==</param>
             <param name="resource">[Required] Resource to create</param>
             <param name="isDelta">[Optional] Only update Attributes with Dirty-Flag</param>
             <returns></returns>
@@ -100,7 +199,7 @@
             <summary>
             Add Values to a multivalued Attribute
             </summary>
-            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:yJJI/p/lc+WDOoNCR/l/3g==</param>
             <param name="objectID">[Required] ObjectID of the Resource to add Values</param>
             <param name="attributeName">[Required] Attribute to add Values</param>
             <param name="valuesToAdd">[Required] Values to add</param>
@@ -110,7 +209,7 @@
             <summary>
             Remove Values from a multivalued Attribute
             </summary>
-            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:E5AkXRT0VoCo3JSc0oc81A==</param>
+            <param name="connectionInfo">[Required] Connection Info ex. baseaddress://localhost:5725;domain:contoso;username:mimadmin; password:yJJI/p/lc+WDOoNCR/l/3g==</param>
             <param name="objectID">[Required] ObjectID of the Resource to remove Values from</param>
             <param name="attributeName">[Required] Attribute to remove Values from</param>
             <param name="valuesToRemove">[Required] Values to remove</param>

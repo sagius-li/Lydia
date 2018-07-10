@@ -14,6 +14,12 @@ namespace OCGDS.DSModel
         public string Domain { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string EncryptionKey { get; set; }
+
+        public ConnectionInfo()
+        {
+            this.EncryptionKey = ConfigManager.GetAppSetting("EncryptionKey", string.Empty);
+        }
 
         public static ConnectionInfo BuildConnectionInfo(string connection)
         {
@@ -56,6 +62,8 @@ namespace OCGDS.DSModel
                         break;
                 }
             }
+
+            ci.EncryptionKey = ConfigManager.GetAppSetting("EncryptionKey", string.Empty);
 
             return ci;
         }

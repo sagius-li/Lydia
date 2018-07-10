@@ -1,4 +1,5 @@
-﻿using OCGDS.DSModel;
+﻿using OCG.Security.Operation;
+using OCGDS.DSModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -86,6 +87,19 @@ namespace OCGDS.Controllers
             }
 
             return Ok(string.Empty);
+        }
+
+        /// <summary>
+        /// Get encryption key
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("encryptionkey")]
+        public IHttpActionResult GetEncryptionKey()
+        {
+            string key = ConfigManager.GetAppSetting("EncryptionKey", string.Empty);
+
+            return Ok(GenericAESCryption.EncryptString(key));
         }
     }
 }

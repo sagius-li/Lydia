@@ -129,6 +129,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\GenericController.cs" />
+    <Compile Include="Controllers\ResourceAdminAuthController.cs" />
     <Compile Include="Controllers\ResourceBasicAuthController.cs" />
     <Compile Include="Controllers\ResourceWinAuthController.cs" />
     <Compile Include="Global.asax.cs">
@@ -155,6 +156,10 @@
     <ProjectReference Include="..\OCGDS.DSModel\OCGDS.DSModel.csproj">
       <Project>{467a72a0-6d41-44cb-ad95-b3dcd955207e}</Project>
       <Name>OCGDS.DSModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OCGLibraries\OCG.Security\OCG.Security.csproj">
+      <Project>{0c05e240-d568-494e-a6f8-704efd8019dd}</Project>
+      <Name>OCG.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

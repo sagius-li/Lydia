@@ -33,7 +33,7 @@ namespace OCGDS.MIMResourceRepo
                     !string.IsNullOrEmpty(info.UserName) && !string.IsNullOrEmpty(info.Password))
                 {
                     cred = new NetworkCredential(info.UserName,
-                        GenericAESCryption.DecryptString(info.Password), info.Domain);
+                        GenericAESCryption.DecryptString(info.Password, info.EncryptionKey), info.Domain);
                 }
 
                 if (cred == null)
@@ -51,7 +51,7 @@ namespace OCGDS.MIMResourceRepo
             return client;
         }
 
-        private List<RmAttribute> getAttributeDefinition(string objectType, int cultureKey)
+        private List<RmAttribute> getAttributeDefinition(string objectType, int cultureKey, string encryptionKey)
         {
             List<RmAttribute> attDef = null;
             if (cultureKey != 127)
@@ -69,7 +69,7 @@ namespace OCGDS.MIMResourceRepo
                 else
                 {
                     resourceReader = new OCG.ResourceManagement.DBAccess.ResourceReader(
-                        connString, adminAccountName, GenericAESCryption.DecryptString(adminAccountPWD));
+                        connString, adminAccountName, GenericAESCryption.DecryptString(adminAccountPWD, encryptionKey));
                 }
                 attDef = resourceReader.GetAttributes(objectType, cultureKey);
             }
@@ -113,7 +113,7 @@ namespace OCGDS.MIMResourceRepo
                 HasPermissionHints = resource.HasPermissionHints
             };
 
-            List<RmAttribute> attributeDef = getAttributeDefinition(resource.ObjectTypeName, option.CultureKey);
+            List<RmAttribute> attributeDef = getAttributeDefinition(resource.ObjectTypeName, option.CultureKey, option.ConnectionInfo.EncryptionKey);
 
             Dictionary<string, DSAttribute> attributes = new Dictionary<string, DSAttribute>();
 
